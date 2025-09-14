@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext.jsx';
+import React, { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext.jsx";
+import "../styles/index.css";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -9,59 +10,72 @@ export default function Navbar() {
 
   const handleLogout = () => {
     logout();
-    nav('/');
+    nav("/");
     setOpen(false);
   };
 
   return (
-    <header className={`nav ${open ? 'open' : ''}`}>
-      <div className="nav__bar container">
-        <Link to="/" className="nav__logo" aria-label="LET'Z PLAY" onClick={() => setOpen(false)}>
-          {/* Falls back to text if image is missing */}
-          <img src="/images/logo.png" alt="LET'Z PLAY" onError={(e)=>{e.currentTarget.outerHTML="<strong>LET'Z PLAY</strong>";}} />
-        </Link>
+    <>
+      {/* Announcement bar */}
+      <div className="announcement-bar">
+        International Shipping Available
+      </div>
 
-        <nav className="nav__links" aria-label="Primary">
-          <NavLink to="/collections/New"            className={({isActive}) => `nav__link ${isActive ? 'is-active' : ''}`}>New</NavLink>
-          <NavLink to="/collections/Best%20Sellers" className={({isActive}) => `nav__link ${isActive ? 'is-active' : ''}`}>Best Sellers</NavLink>
-          <NavLink to="/collections/Oversized%20T-Shirts" className={({isActive}) => `nav__link ${isActive ? 'is-active' : ''}`}>Oversized T-Shirts</NavLink>
-          <NavLink to="/collections/Hoodies"        className={({isActive}) => `nav__link ${isActive ? 'is-active' : ''}`}>Hoodies</NavLink>
-          <NavLink to="/collections/Accessories"    className={({isActive}) => `nav__link ${isActive ? 'is-active' : ''}`}>Accessories</NavLink>
-        </nav>
+      <header className={`skims-nav ${open ? "open" : ""}`}>
+        <div className="skims-inner container">
+          {/* Logo */}
+          <Link to="/" className="skims-logo">
+            <img
+              src="/images/logo.png"
+              alt="LET'Z PLAY"
+              onError={(e) => {
+                e.currentTarget.outerHTML = "<strong>LET'Z PLAY</strong>";
+              }}
+            />
+          </Link>
 
-        <div className="nav__actions">
-          {!user ? (
-            <>
-              <Link className="btn-link" to="/login">Sign In</Link>
-              <Link className="btn-link" to="/signup">Sign Up</Link>
-            </>
-          ) : (
-            <>
-              <Link className="btn-link" to="/profile">My Profile</Link>
-              {user.role === 'admin' && <Link className="btn-link" to="/admin">Admin</Link>}
-              <button className="btn-link" onClick={handleLogout}>Log Out</button>
-            </>
-          )}
-          <Link className="nav__cart" to="/cart" aria-label="Cart" onClick={() => setOpen(false)}>🛒</Link>
+          {/* Nav links */}
+          <nav className="skims-links">
+            <NavLink to="/collections/New">New</NavLink>
+            <NavLink to="/collections/Best%20Sellers">Best Sellers</NavLink>
+            <NavLink to="/collections/Oversized%20T-Shirts">T-Shirts</NavLink>
+            <NavLink to="/collections/Hoodies">Hoodies</NavLink>
+            <NavLink to="/collections/Accessories">Accessories</NavLink>
+          </nav>
 
-          {/* Burger toggles state, not a checkbox sibling */}
-          <button
-            type="button"
-            className="nav__burger"
-            aria-label="Menu"
-            onClick={() => setOpen(v => !v)}
-          />
+          {/* Right side icons/actions */}
+          <div className="skims-actions">
+            <Link to="/search" aria-label="Search">🔍</Link>
+            {user ? (
+              <>
+                <Link to="/profile" aria-label="Profile">👤</Link>
+                {user.role === "admin" && <Link to="/admin">⚙️</Link>}
+                <button onClick={handleLogout} className="linklike">Log Out</button>
+              </>
+            ) : (
+              <Link to="/login" aria-label="Sign In">👤</Link>
+            )}
+            <Link to="/wishlist" aria-label="Wishlist">♡</Link>
+            <Link to="/cart" aria-label="Cart">👜</Link>
+
+            {/* Burger (mobile only) */}
+            <button
+              className="burger"
+              aria-label="Menu"
+              onClick={() => setOpen((v) => !v)}
+            />
+          </div>
         </div>
-      </div>
 
-      {/* Mobile drawer */}
-      <div className="nav__drawer container">
-        <NavLink to="/collections/New"                 className="nav__drawer-link" onClick={()=>setOpen(false)}>New</NavLink>
-        <NavLink to="/collections/Best%20Sellers"      className="nav__drawer-link" onClick={()=>setOpen(false)}>Best Sellers</NavLink>
-        <NavLink to="/collections/Oversized%20T-Shirts"className="nav__drawer-link" onClick={()=>setOpen(false)}>Oversized T-Shirts</NavLink>
-        <NavLink to="/collections/Hoodies"             className="nav__drawer-link" onClick={()=>setOpen(false)}>Hoodies</NavLink>
-        <NavLink to="/collections/Accessories"         className="nav__drawer-link" onClick={()=>setOpen(false)}>Accessories</NavLink>
-      </div>
-    </header>
+        {/* Mobile drawer */}
+        <div className="skims-drawer container">
+          <NavLink to="/collections/New" onClick={() => setOpen(false)}>New</NavLink>
+          <NavLink to="/collections/Best%20Sellers" onClick={() => setOpen(false)}>Best Sellers</NavLink>
+          <NavLink to="/collections/Oversized%20T-Shirts" onClick={() => setOpen(false)}>T-Shirts</NavLink>
+          <NavLink to="/collections/Hoodies" onClick={() => setOpen(false)}>Hoodies</NavLink>
+          <NavLink to="/collections/Accessories" onClick={() => setOpen(false)}>Accessories</NavLink>
+        </div>
+      </header>
+    </>
   );
 }
