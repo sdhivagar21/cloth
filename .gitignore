@@ -1,34 +1,8 @@
-﻿# Root
-.DS_Store
-Thumbs.db
-
-# Node / Vite (both frontend & backend)
-node_modules/
+﻿node_modules/
 **/node_modules/
 dist/
 **/dist/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# env / credentials
+.vscode/
 .env
 .env.*
-**/.env
-**/.env.*
-
-# Vite/Build caches
-.vite/
-**/.vite/
-.cache/
-**/.cache/
-
-# Editor/OS
-.vscode/
-.idea/
-*.swp
-
-# Coverage
-coverage/
-**/coverage/
+*.log
